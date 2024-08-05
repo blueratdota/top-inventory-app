@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import cors from "cors";
 import pool from "./config/db.js";
 import inventoryRoutes from "./routes/inventoryRoutes.js";
+import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -18,6 +19,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use("/", inventoryRoutes);
+
+// use error handler
+app.use(errorHandler);
 
 // testing db -- logs latest registy
 // const logDB = async () => {
