@@ -1,6 +1,5 @@
 import express from "express";
 import pool from "../config/db.js";
-import e from "express";
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
@@ -72,6 +71,7 @@ router.post("/new-item", async (req, res, next) => {
         [itemId, itemName, itemCategory, itemQty]
       );
       res.status(201).json(newItem.rows[0]);
+      console.log(newItem.rows[0]);
     } else {
       const error = new Error(`Category "${itemCategory}" does not exist`);
       error.status = 400;
