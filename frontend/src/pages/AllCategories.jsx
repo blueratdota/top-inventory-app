@@ -15,7 +15,6 @@ const AllCategories = ({}) => {
         setCategories(dbData);
         setIsLoading(false);
       }
-      console.log(dbData);
     };
     fetchData();
 
@@ -31,8 +30,8 @@ const AllCategories = ({}) => {
       <div className="grid grid-cols-3 gap-5 py-5 max-w-[720px] mx-auto">
         {categories.map((category) => {
           return (
-            <div className="border">
-              <div>Category: {category.category}</div>
+            <div key={category.id} className="border">
+              <div className="uppercase">{category.category}</div>
             </div>
           );
         })}

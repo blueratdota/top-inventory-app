@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import cors from "cors";
 import pool from "./config/db.js";
 import inventoryRoutes from "./routes/inventoryRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use("/", inventoryRoutes);
+app.use("/api/users", userRoutes);
 
 // use error handler
 app.use(errorHandler);

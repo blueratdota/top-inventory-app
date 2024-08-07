@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Select, SelectField } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 const NewItem = ({}) => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [itemName, setItemName] = useState();
   const [itemCategory, setItemCateogory] = useState();
   const [itemQty, setItemQty] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let ignore = false;
@@ -42,6 +44,7 @@ const NewItem = ({}) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
         });
+        navigate("/items");
       } catch (error) {}
     } else {
       alert("Please complete input fields");
