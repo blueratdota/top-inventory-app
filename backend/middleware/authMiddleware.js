@@ -5,12 +5,10 @@ const protect = async (req, res, next) => {
   try {
     let token;
     token = req.cookies.jwt;
-    console.log(token);
 
     if (token) {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decoded);
         const userQuery = await pool.query(
           "SELECT username,user_type FROM user_db WHERE username = $1 ",
           [decoded.userId]

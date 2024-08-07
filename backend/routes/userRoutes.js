@@ -78,7 +78,7 @@ router.post("/logout", async (req, res) => {
 
 // ###get user details
 router.get("/profile", protect, async (req, res, next) => {
-  //   res.json(req.user);
+  console.log("run next after protect");
   try {
     const user = await pool.query("SELECT * FROM user_db WHERE username=$1 ", [
       req.user.username
