@@ -87,4 +87,28 @@ router.get("/profile", protect, async (req, res, next) => {
   } catch (error) {}
 });
 
+// ###update user details
+router.put("/profile", protect, async (req, res, next) => {
+  // refactor - find req.user first then if unable to find 404 user not found
+  const { password } = req.body;
+  const { username, email } = req.user;
+  try {
+    bcrypt.hash(password, 10, async (err, hashedPassword) => {
+      if (err) {
+        return next("Error in hashing password");
+      }
+      await pool.query(
+        "UPDATE user_db SET password=$1,timestamp=$3 WHERE username=$2",
+        [hashedPassword, username, new Date()]
+      );
+
+      res.status(201).json(req.body);
+    });
+  } catch (error) {
+    const err = new Error("Unable to update password");
+    err.status = 400;
+    return next(err);
+  }
+});
+
 export default router;

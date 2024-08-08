@@ -15,7 +15,6 @@ const AllItems = ({}) => {
         setItems(dbData);
         setIsLoading(false);
       }
-      console.log(dbData);
     };
     fetchData();
 
