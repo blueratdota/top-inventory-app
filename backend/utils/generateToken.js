@@ -12,7 +12,7 @@ const genToken = (res, userId) => {
     maxAge: 1000 * 60 * 60 * 24 * 30
   });
 
-  console.log("decrpyt", jwt.verify(token, process.env.JWT_SECRET));
+  // console.log("decrpyt", jwt.verify(token, process.env.JWT_SECRET));
 };
 
 export { genToken };

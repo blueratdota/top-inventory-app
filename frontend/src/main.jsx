@@ -8,6 +8,7 @@ import AllCategories from "./pages/AllCategories.jsx";
 import NewItem from "./pages/NewItem.jsx";
 import NewCategory from "./pages/NewCategory.jsx";
 import Admin from "./pages/Admin.jsx";
+import Signup from "./pages/Signup.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,8 @@ const router = createBrowserRouter([
       { path: "items/new-item", element: <NewItem /> },
       { path: "categories", element: <AllCategories /> },
       { path: "categories/new-category", element: <NewCategory /> },
-      { path: "admin", element: <Admin /> }
+      { path: "admin", element: <Admin /> },
+      { path: "sign-up", element: <Signup /> }
     ]
   }
 ]);

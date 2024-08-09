@@ -60,6 +60,7 @@ router.post("/login", async (req, res, next) => {
       return next(error);
     }
     genToken(res, username);
+    console.log(`login posted by username: ${username}`);
     res.json(user.rows);
   } catch (error) {
     return next(error);
