@@ -56,7 +56,7 @@ const Admin = ({}) => {
             </div>
           </div>
         ) : (
-          <Login></Login>
+          <Login isLoading={isLoading} setIsLoading={setIsLoading}></Login>
         )}
       </div>
     );

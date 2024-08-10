@@ -46,7 +46,6 @@ function App() {
           context={{ userData: userData, setUserData: setUserData }}
         ></Outlet>
       </div>
-      <div>hello {userData.username}</div>
     </>
   );
 }
