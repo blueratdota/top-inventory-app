@@ -9,16 +9,17 @@ import NewItem from "./pages/NewItem.jsx";
 import NewCategory from "./pages/NewCategory.jsx";
 import Admin from "./pages/Admin.jsx";
 import Signup from "./pages/Signup.jsx";
+import Item from "./pages/Item.jsx";
+import Home from "./pages/Home.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        path: "items",
-        element: <AllItems />
-      },
+      { index: true, element: <Home to="/home" replace /> },
+      { path: "items", element: <AllItems /> },
+      { path: "items/:id", element: <Item /> },
       { path: "items/new-item", element: <NewItem /> },
       { path: "categories", element: <AllCategories /> },
       { path: "categories/new-category", element: <NewCategory /> },

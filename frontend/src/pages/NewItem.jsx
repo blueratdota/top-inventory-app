@@ -1,37 +1,29 @@
 import { useState, useEffect } from "react";
 import { Select, SelectField } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { useSWRConfig } from "swr";
+
 const NewItem = ({}) => {
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [itemName, setItemName] = useState();
   const [itemCategory, setItemCateogory] = useState();
   const [itemQty, setItemQty] = useState();
+  const [isPosting, setIsPosting] = useState(false);
   const navigate = useNavigate();
+  const { mutate } = useSWRConfig();
 
-  useEffect(() => {
-    let ignore = false;
-    setIsLoading(true);
-    const fetchData = async () => {
-      const response = await fetch("http://localhost:3000/categories");
-      const dbData = await response.json();
-      if (!ignore) {
-        setCategories(dbData);
-        setIsLoading(false);
-      }
-      console.log(dbData);
-    };
-    fetchData();
+  const context = useOutletContext();
+  const categories = context.categories;
+  const setCategories = context.setCategories;
+  const isLoading = context.isLoading;
+  const items = context.items;
+  const setItems = context.setItems;
 
-    return () => {
-      ignore = true;
-    };
-  }, []);
   const onSubmitForm = async (e) => {
     e.preventDefault();
     if (itemName && itemCategory && itemQty) {
       try {
+        setIsPosting(true);
         const itemId = uuidv4();
         const body = {
           itemId,
@@ -44,50 +36,56 @@ const NewItem = ({}) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
         });
+        mutate("http://localhost:3000");
         navigate("/items");
       } catch (error) {}
     } else {
       alert("Please complete input fields");
     }
+    setIsPosting(false);
   };
 
   return (
     <div>
-      <form action="POST" onSubmit={onSubmitForm}>
-        <input
-          required
-          type="text"
-          placeholder="Item name"
-          onChange={(e) => {
-            setItemName(e.target.value);
-          }}
-        />
-        <Select
-          placeholder="Item category"
-          isRequired={true}
-          icon={false}
-          onChange={(e) => {
-            setItemCateogory(e.target.value);
-          }}
-        >
-          {categories.map((category) => {
-            return (
-              <option key={category.id} value={category.category}>
-                {category.category}
-              </option>
-            );
-          })}
-        </Select>
-        <input
-          required
-          type="number"
-          placeholder="Item qty"
-          onChange={(e) => {
-            setItemQty(e.target.value);
-          }}
-        />
-        <button type="submit">add item</button>
-      </form>
+      {isPosting ? (
+        <div>Creating item...</div>
+      ) : (
+        <form action="POST" onSubmit={onSubmitForm}>
+          <input
+            required
+            type="text"
+            placeholder="Item name"
+            onChange={(e) => {
+              setItemName(e.target.value);
+            }}
+          />
+          <Select
+            placeholder="Item category"
+            isRequired={true}
+            icon={false}
+            onChange={(e) => {
+              setItemCateogory(e.target.value);
+            }}
+          >
+            {categories.map((category) => {
+              return (
+                <option key={category.id} value={category.category}>
+                  {category.category}
+                </option>
+              );
+            })}
+          </Select>
+          <input
+            required
+            type="number"
+            placeholder="Item qty"
+            onChange={(e) => {
+              setItemQty(e.target.value);
+            }}
+          />
+          <button type="submit">add item</button>
+        </form>
+      )}
     </div>
   );
 };

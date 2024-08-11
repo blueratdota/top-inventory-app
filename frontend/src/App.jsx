@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
+import useSWR from "swr";
 
 function App() {
   const [userData, setUserData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     let ignore = false;
     setIsLoading(true);
@@ -18,10 +20,26 @@ function App() {
       }
     };
     fetchData();
+
     return () => {
       ignore = true;
     };
   }, []);
+
+  // SWR FETCH STUFF
+  const fetcher = (...url) => fetch(...url).then((res) => res.json());
+  const {
+    data: items,
+    error: errorItems,
+    isLoading: isLoadingItems
+  } = useSWR("http://localhost:3000", fetcher, { revalidateOnFocus: false });
+  const {
+    data: categories,
+    error: errorcategories,
+    isLoading: isLoadingCategories
+  } = useSWR("http://localhost:3000/categories", fetcher, {
+    revalidateOnFocus: false
+  });
 
   return (
     <>
@@ -41,11 +59,24 @@ function App() {
           </Link>
         </nav>
       </header>
-      <div>
-        <Outlet
-          context={{ userData: userData, setUserData: setUserData }}
-        ></Outlet>
-      </div>
+      {isLoading ? (
+        <div>Loading main app...</div>
+      ) : (
+        <div>
+          <Outlet
+            context={{
+              userData: userData,
+              setUserData: setUserData,
+              items: items,
+              // setItems: setItems,
+              categories: categories,
+              // setCategories: setCategories,
+              isLoadingItems: isLoadingItems,
+              isLoadingCategories: isLoadingCategories
+            }}
+          ></Outlet>
+        </div>
+      )}
     </>
   );
 }

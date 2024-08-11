@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSWRConfig } from "swr";
 
 const NewCategory = ({}) => {
   const [category, setCategory] = useState("");
   const [allCategory, setAllCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { mutate } = useSWRConfig();
 
   useEffect(() => {
     let ignore = false;
@@ -43,6 +45,7 @@ const NewCategory = ({}) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
         });
+        mutate("http://localhost:3000/categories");
         navigate("/categories");
       } catch (error) {}
     } else {

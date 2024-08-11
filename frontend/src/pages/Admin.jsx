@@ -4,29 +4,29 @@ import Login from "./Login";
 import { useNavigate } from "react-router-dom";
 
 const Admin = ({}) => {
-  const context = useOutletContext();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const context = useOutletContext();
   const loginData = context.userData;
 
-  useEffect(() => {
-    let ignore = false;
-    setIsLoading(true);
-    const fetchData = async () => {
-      const response = await fetch("http://localhost:3000/");
-      const dbData = await response.json();
-      if (!ignore) {
-        setIsLoggedIn(true);
-        setIsLoading(false);
-      }
-    };
-    fetchData();
+  // useEffect(() => {
+  //   let ignore = false;
+  //   setIsLoading(true);
+  //   const fetchData = async () => {
+  //     const response = await fetch("http://localhost:3000/");
+  //     const dbData = await response.json();
+  //     if (!ignore) {
+  //       setIsLoggedIn(true);
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchData();
 
-    return () => {
-      ignore = true;
-    };
-  }, []);
+  //   return () => {
+  //     ignore = true;
+  //   };
+  // }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
