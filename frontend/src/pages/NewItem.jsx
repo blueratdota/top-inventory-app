@@ -36,7 +36,7 @@ const NewItem = ({}) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
         });
-        mutate("http://localhost:3000");
+        mutate("http://localhost:3000/items");
         navigate("/items");
       } catch (error) {}
     } else {
@@ -50,8 +50,13 @@ const NewItem = ({}) => {
       {isPosting ? (
         <div>Creating item...</div>
       ) : (
-        <form action="POST" onSubmit={onSubmitForm}>
+        <form
+          action="POST"
+          onSubmit={onSubmitForm}
+          className="flex flex-col gap-2 py-5 mx-2"
+        >
           <input
+            className="p-2"
             required
             type="text"
             placeholder="Item name"
@@ -60,6 +65,7 @@ const NewItem = ({}) => {
             }}
           />
           <Select
+            className="bg-white p-2"
             placeholder="Item category"
             isRequired={true}
             icon={false}
@@ -76,6 +82,7 @@ const NewItem = ({}) => {
             })}
           </Select>
           <input
+            className="p-2"
             required
             type="number"
             placeholder="Item qty"
@@ -83,7 +90,12 @@ const NewItem = ({}) => {
               setItemQty(e.target.value);
             }}
           />
-          <button type="submit">add item</button>
+          <button
+            type="submit"
+            className="py-2 mt-5 mx-auto w-80 rounded-lg bg-orange-500 text-white"
+          >
+            Add Item
+          </button>
         </form>
       )}
     </div>

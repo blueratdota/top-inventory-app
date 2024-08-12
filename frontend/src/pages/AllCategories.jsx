@@ -5,38 +5,9 @@ import { mdiChevronRight, mdiPlusCircleOutline } from "@mdi/js";
 import useSWR from "swr";
 
 const AllCategories = ({}) => {
-  // const [categories, setCategories] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-
   const context = useOutletContext();
   const categories = context.categories;
   const setCategories = context.setCategories;
-
-  // useEffect(() => {
-  //   let ignore = false;
-  //   setIsLoading(true);
-  //   const fetchData = async () => {
-  //     const response = await fetch("http://localhost:3000/categories");
-  //     const dbData = await response.json();
-  //     if (!ignore) {
-  //       setCategories(dbData);
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   fetchData();
-
-  //   return () => {
-  //     ignore = true;
-  //   };
-  // }, []);
-
-  // const fetcher = (url) => fetch(url).then((res) => res.json());
-  // const {
-  //   data: categories,
-  //   error,
-  //   isLoading
-  // } = useSWR("http://localhost:3000/categories", fetcher);
-  // console.log(categories);
 
   if (context.isLoadingCategories) {
     return <div>Loading...SWR</div>;

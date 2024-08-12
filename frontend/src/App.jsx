@@ -32,7 +32,9 @@ function App() {
     data: items,
     error: errorItems,
     isLoading: isLoadingItems
-  } = useSWR("http://localhost:3000", fetcher, { revalidateOnFocus: false });
+  } = useSWR("http://localhost:3000/items", fetcher, {
+    revalidateOnFocus: false
+  });
   const {
     data: categories,
     error: errorcategories,
@@ -42,7 +44,7 @@ function App() {
   });
 
   return (
-    <>
+    <div className="max-w-[1024px] mx-auto">
       <header className="bg-orange-500 text-extWhite  md:flex justify-between items-center px-5 py-3">
         <h1 className="text-3xl font-semibold mb-5 text-center">
           <Link to={"/"}>Odin Inventory App</Link>
@@ -62,22 +64,20 @@ function App() {
       {isLoading ? (
         <div>Loading main app...</div>
       ) : (
-        <div>
+        <div className="md:max-w-[720px] mx-auto">
           <Outlet
             context={{
               userData: userData,
               setUserData: setUserData,
               items: items,
-              // setItems: setItems,
               categories: categories,
-              // setCategories: setCategories,
               isLoadingItems: isLoadingItems,
               isLoadingCategories: isLoadingCategories
             }}
           ></Outlet>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

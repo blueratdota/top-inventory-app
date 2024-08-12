@@ -2,10 +2,24 @@ import express from "express";
 import pool from "../config/db.js";
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get("/items", async (req, res, next) => {
   try {
     const query = await pool.query("SELECT * FROM myinventory");
     res.status(200).json(query.rows);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+router.delete("/items/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const query = await pool.query("DELETE FROM myinventory WHERE item_id=$1", [
+      id
+    ]);
+    // res.status(200).json(query.rows);
+    console.log(`deleted item with id: ${id}`);
+    res.status(200).json({ msg: `deleted item with id: ${id}` });
   } catch (error) {
     console.log(error.message);
   }
@@ -15,6 +29,21 @@ router.get("/categories", async (req, res, next) => {
   try {
     const query = await pool.query("SELECT * FROM mycategories");
     res.status(200).json(query.rows);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+router.delete("/categories/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const query = await pool.query(
+      "DELETE FROM mycategories WHERE category=$1",
+      [id]
+    );
+    // res.status(200).json(query.rows);
+    console.log(`deleted category with id: ${id}`);
+    res.status(200).json({ msg: `deleted item with id: ${id}` });
   } catch (error) {
     console.log(error.message);
   }
